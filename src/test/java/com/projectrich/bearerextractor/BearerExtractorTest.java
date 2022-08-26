@@ -6,11 +6,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 class BearerExtractorTest {
 
+    private static final String AUTHORIZATION = "Authorization";
     private static final String VALID_JWT_TOKEN = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
             + "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ."
             + "SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
@@ -32,7 +32,7 @@ class BearerExtractorTest {
     void should_fail_when_bearer_token_is_empty(final String emptyBearerToken) {
         // given
         MockHttpServletRequest request = new MockHttpServletRequest();
-        request.addHeader(HttpHeaders.AUTHORIZATION, emptyBearerToken);
+        request.addHeader(AUTHORIZATION, emptyBearerToken);
 
         // when & then
         assertThatCode(() -> BearerExtractor.resolve(request))
@@ -45,7 +45,7 @@ class BearerExtractorTest {
     void should_fail_when_bearer_token_is_malformed(final String malformedBearerToken) {
         // given
         MockHttpServletRequest request = new MockHttpServletRequest();
-        request.addHeader(HttpHeaders.AUTHORIZATION, malformedBearerToken);
+        request.addHeader(AUTHORIZATION, malformedBearerToken);
 
         // when & then
         assertThatCode(() -> BearerExtractor.resolve(request))
@@ -57,7 +57,7 @@ class BearerExtractorTest {
     void should_success_when_bearer_token_is_valid() {
         // given
         MockHttpServletRequest request = new MockHttpServletRequest();
-        request.addHeader(HttpHeaders.AUTHORIZATION, VALID_JWT_TOKEN);
+        request.addHeader(AUTHORIZATION, VALID_JWT_TOKEN);
 
         // when & then
         assertThatCode(() -> BearerExtractor.resolve(request))
