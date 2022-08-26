@@ -1,36 +1,31 @@
-plugins {
-    id 'org.springframework.boot' version '2.7.3'
-    id 'io.spring.dependency-management' version '1.0.13.RELEASE'
-    id 'java'
-    id 'maven-publish'
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'com.projectrich'
-            artifactId = 'bearerextractor'
-            version = "0.1.0"
-            from components.java
-
-            pom {
-                description = 'Simple Bearer Token Extractor for JWT from HttpServletRequest'
-            }
-        }
-    }
-}
+apply plugin: 'java'
+apply plugin: 'maven-publish'
 
 group = 'com.project-rich'
-version = '0.0.1-SNAPSHOT'
+version = '0.1.0'
 sourceCompatibility = '11'
+targetCompatibility = '11'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.3'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.3'
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
 }
 
 tasks.named('test') {
